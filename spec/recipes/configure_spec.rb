@@ -14,4 +14,12 @@ describe 'elasticsearch::configure' do
   it 'configures the unicast hosts with the searchy things' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
   end
+
+  describe 'template[/opt/local/etc/elasticsearch.yml]' do
+    let(:resource) { chef_run.template('/opt/local/etc/elasticsearch.yml') }
+
+    it 'restarts elasticsearch' do
+      expect(resource).to notify('service[elasticsearch]').to(:restart)
+    end
+  end
 end

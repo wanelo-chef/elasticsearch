@@ -5,6 +5,8 @@
 # Copyright (C) 2014 Wanelo, Inc.
 #
 
+include_recipe 'elasticsearch::service'
+
 master_hosts = search(:node, 'roles:elasticsearch-master')
 
 template '/opt/local/etc/elasticsearch.yml' do
@@ -12,4 +14,6 @@ template '/opt/local/etc/elasticsearch.yml' do
   variables(
     master_hosts: master_hosts,
   )
+
+  notifies :restart, 'service[elasticsearch]'
 end

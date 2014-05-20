@@ -5,4 +5,9 @@
 # Copyright (C) 2014 Wanelo, Inc.
 #
 
-package 'elasticsearch'
+include_recipe 'elasticsearch::service'
+
+package 'elasticsearch' do
+  notifies :enable, 'service[elasticsearch]'
+  notifies :start, 'service[elasticsearch]'
+end

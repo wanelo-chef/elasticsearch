@@ -6,4 +6,16 @@ describe 'elasticsearch::install' do
   it 'installs elasticsearch' do
     expect(chef_run).to install_package('elasticsearch')
   end
+
+  describe 'package[elasticsearch]' do
+    let(:resource) { chef_run.package('elasticsearch') }
+
+    it 'enables elasticsearch' do
+      expect(resource).to notify('service[elasticsearch]').to(:enable)
+    end
+
+    it 'starts elasticsearch' do
+      expect(resource).to notify('service[elasticsearch]').to(:start)
+    end
+  end
 end
