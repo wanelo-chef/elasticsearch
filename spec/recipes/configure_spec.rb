@@ -12,6 +12,10 @@ describe 'elasticsearch::configure' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.multicast\.enabled: false$/)
   end
 
+  it 'configures mlockall' do
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^bootstrap\.mlockall: true$/)
+  end
+
   describe 'master node' do
     it 'configures elasticsearch to not be master by default' do
       expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^node\.master: false$/)
