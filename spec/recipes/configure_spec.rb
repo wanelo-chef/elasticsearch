@@ -12,6 +12,22 @@ describe 'elasticsearch::configure' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.multicast\.enabled: false$/)
   end
 
+  describe 'master node' do
+    it 'configures elasticsearch to not be master by default' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^node\.master: false$/)
+    end
+
+    context 'when the node is configured to be a master node' do
+      let(:runner) { ChefSpec::Runner.new { |node|
+          node.set['elasticsearch']['master'] = true
+      } }
+
+      it 'configures elasticsearch to be master-electable' do
+        expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^node\.master: true/)
+      end
+    end
+  end
+
   describe 'unicast hosts' do
     it 'fills in ips based on search' do
       expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
