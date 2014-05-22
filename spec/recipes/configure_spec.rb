@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe 'elasticsearch::configure' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:runner) { ChefSpec::Runner.new }
+  let(:chef_run) { runner.converge(described_recipe) }
 
   before do
     stub_search(:node, 'roles:elasticsearch-master').and_return([{'privateaddress' => '1.2.3.4'}])
@@ -11,8 +12,24 @@ describe 'elasticsearch::configure' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.multicast\.enabled: false$/)
   end
 
-  it 'configures the unicast hosts with the searchy things' do
-    expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
+  describe 'unicast hosts' do
+    it 'fills in ips based on search' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
+    end
+
+    context 'with search overridden' do
+      let(:runner) { ChefSpec::Runner.new { |node|
+          node.set['elasticsearch']['master_search'] = 'roles:blargh'
+      } }
+
+      before do
+        stub_search(:node, 'roles:blargh').and_return([{'privateaddress' => '5.6.7.8'}])
+      end
+
+      it 'finds hosts based on node attributes' do
+        expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["5\.6\.7\.8"\]$/)
+      end
+    end
   end
 
   describe 'template[/opt/local/etc/elasticsearch.yml]' do
