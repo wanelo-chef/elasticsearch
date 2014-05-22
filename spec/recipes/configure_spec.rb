@@ -35,7 +35,7 @@ describe 'elasticsearch::configure' do
 
     context 'with search overridden' do
       let(:runner) { ChefSpec::Runner.new { |node|
-          node.set['elasticsearch']['master_search'] = 'roles:blargh'
+          node.set['elasticsearch']['search'] = 'roles:blargh'
       } }
 
       before do

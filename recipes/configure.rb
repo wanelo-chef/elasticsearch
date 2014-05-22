@@ -7,12 +7,12 @@
 
 include_recipe 'elasticsearch::service'
 
-master_hosts = search(:node, node['elasticsearch']['master_search'])
+elasticsearch_hosts = search(:node, node['elasticsearch']['search'])
 
 template '/opt/local/etc/elasticsearch.yml' do
   source 'elasticsearch.yml.erb'
   variables(
-    master_hosts: master_hosts,
+    elasticsearch_hosts: elasticsearch_hosts,
     master: node['elasticsearch']['master']
   )
 
