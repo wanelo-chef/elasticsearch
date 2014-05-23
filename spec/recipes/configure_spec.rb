@@ -16,6 +16,16 @@ describe 'elasticsearch::configure' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^bootstrap\.mlockall: true$/)
   end
 
+  describe 'cluster name' do
+    let(:runner) { ChefSpec::Runner.new { |node|
+        node.set['elasticsearch']['cluster'] = 'delicious-tacos'
+    } }
+
+    it 'configures the elasticsearch cluster name' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^cluster\.name: delicious-tacos/)
+    end
+  end
+
   describe 'master node' do
     it 'configures elasticsearch to not be master by default' do
       expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^node\.master: false$/)

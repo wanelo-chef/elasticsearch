@@ -13,7 +13,8 @@ template '/opt/local/etc/elasticsearch.yml' do
   source 'elasticsearch.yml.erb'
   variables(
     elasticsearch_hosts: elasticsearch_hosts,
-    master: node['elasticsearch']['master']
+    master: node['elasticsearch']['master'],
+    cluster: node['elasticsearch']['cluster'],
   )
 
   notifies :restart, 'service[elasticsearch]'
