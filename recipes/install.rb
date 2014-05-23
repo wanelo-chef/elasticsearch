@@ -11,3 +11,5 @@ package 'elasticsearch' do
   notifies :enable, 'service[elasticsearch]'
   notifies :start, 'service[elasticsearch]'
 end
+
+include_recipe 'elasticsearch::smf'
