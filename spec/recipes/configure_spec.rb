@@ -9,11 +9,11 @@ describe 'elasticsearch::configure' do
   end
 
   it 'configures elasticsearch to not use multicast' do
-    expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.multicast\.enabled: false$/)
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.multicast\.enabled: false$/)
   end
 
   it 'configures mlockall' do
-    expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^bootstrap\.mlockall: true$/)
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^bootstrap\.mlockall: true$/)
   end
 
   describe 'cluster name' do
@@ -22,13 +22,13 @@ describe 'elasticsearch::configure' do
     } }
 
     it 'configures the elasticsearch cluster name' do
-      expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^cluster\.name: delicious-tacos/)
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^cluster\.name: delicious-tacos/)
     end
   end
 
   describe 'master node' do
     it 'configures elasticsearch to not be master by default' do
-      expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^node\.master: false$/)
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.master: false$/)
     end
 
     context 'when the node is configured to be a master node' do
@@ -37,14 +37,14 @@ describe 'elasticsearch::configure' do
       } }
 
       it 'configures elasticsearch to be master-electable' do
-        expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^node\.master: true/)
+        expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.master: true/)
       end
     end
   end
 
   describe 'unicast hosts' do
     it 'fills in ips based on search' do
-      expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
     end
 
     context 'with search overridden' do
@@ -57,13 +57,13 @@ describe 'elasticsearch::configure' do
       end
 
       it 'finds hosts based on node attributes' do
-        expect(chef_run).to render_file('/opt/local/etc/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["5\.6\.7\.8"\]$/)
+        expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["5\.6\.7\.8"\]$/)
       end
     end
   end
 
-  describe 'template[/opt/local/etc/elasticsearch.yml]' do
-    let(:resource) { chef_run.template('/opt/local/etc/elasticsearch.yml') }
+  describe 'template[/opt/local/etc/elasticsearch/elasticsearch.yml]' do
+    let(:resource) { chef_run.template('/opt/local/etc/elasticsearch/elasticsearch.yml') }
 
     it 'restarts elasticsearch' do
       expect(resource).to notify('service[elasticsearch]').to(:restart)

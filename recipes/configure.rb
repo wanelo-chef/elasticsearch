@@ -9,7 +9,7 @@ include_recipe 'elasticsearch::service'
 
 elasticsearch_hosts = search(:node, node['elasticsearch']['search'])
 
-template '/opt/local/etc/elasticsearch.yml' do
+template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
   source 'elasticsearch.yml.erb'
   variables(
     elasticsearch_hosts: elasticsearch_hosts,
