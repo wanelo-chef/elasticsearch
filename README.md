@@ -1,4 +1,6 @@
-# elasticsearch cookbook
+# ElasticSearch cookbook
+
+[![Build status](https://secure.travis-ci.org/wanelo-chef/elasticsearch.png)](http://travis-ci.org/wanelo-chef/elasticsearch)
 
 Installs and configures the Joyent Elasticsearch distribution on a SmartOS image.
 
