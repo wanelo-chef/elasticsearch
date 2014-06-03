@@ -7,6 +7,7 @@
 
 include_recipe 'smf'
 include_recipe 'elasticsearch::service'
+include_recipe 'elasticsearch::memory'
 
 smf 'pkgsrc/elasticsearch' do
   action :delete

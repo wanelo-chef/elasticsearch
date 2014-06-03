@@ -26,6 +26,26 @@ describe 'elasticsearch::configure' do
     end
   end
 
+  describe 'node name' do
+    let(:runner) { ChefSpec::Runner.new { |node|
+        node.set['elasticsearch']['name'] = 'clever-searching-name'
+    } }
+
+    it 'configures the elasticsearch node name' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.name: clever-searching-name/)
+    end
+  end
+
+  describe 'minimum number of nodes' do
+    let(:runner) { ChefSpec::Runner.new { |node|
+        node.set['elasticsearch']['minimum_master_nodes'] = '30'
+    } }
+
+    it 'configures the minimum number of master-electable nodes' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^discovery\.zen\.minimum_master_nodes: 30/)
+    end
+  end
+
   describe 'master node' do
     it 'configures elasticsearch to not be master by default' do
       expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.master: false$/)

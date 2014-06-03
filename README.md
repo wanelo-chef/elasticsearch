@@ -8,7 +8,18 @@ Add `recipe[elasticsearch]` to your run_list on each `elasticsearch` node. The c
 recipe will search for all nodes matching `elasticsearch-master` and drop those hosts into the
 the configuration.
 
+# Memory Usage
+
+By default the recipe will set the heap memory size to half of the available RAM, or 30GB
+(whichever is smaller).  To override those, please set the following:
+
+```ruby
+node.override['elasticsearch']['min_heap'] = '6g'
+node.override['elasticsearch']['max_heap'] = '6g'
+```
+
 # Recipes
 
 * `elasticsearch::install`
 * `elasticsearch::configure`
+* `elasticsearch::smf`
