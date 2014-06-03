@@ -1,7 +1,6 @@
 default['elasticsearch']['master'] = false
 default['elasticsearch']['search'] = 'roles:elasticsearch-master'
 default['elasticsearch']['cluster'] = 'elasticsearch'
-default['elasticsearch']['name'] = 'elasticsearch-node'
 
 default['elasticsearch']['minimum_master_nodes'] = '2'
 

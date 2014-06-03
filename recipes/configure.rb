@@ -15,7 +15,7 @@ template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
     elasticsearch_hosts: elasticsearch_hosts,
     master: node['elasticsearch']['master'],
     cluster: node['elasticsearch']['cluster'],
-    node_name: node['elasticsearch']['name'],
+    node_name: node['elasticsearch']['name'] || node.name,
     minimum_master_nodes: node['elasticsearch']['minimum_master_nodes'],
   )
 

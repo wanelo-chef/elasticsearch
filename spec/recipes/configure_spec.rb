@@ -27,12 +27,20 @@ describe 'elasticsearch::configure' do
   end
 
   describe 'node name' do
-    let(:runner) { ChefSpec::Runner.new { |node|
-        node.set['elasticsearch']['name'] = 'clever-searching-name'
-    } }
+    context 'when no elasticsearch name is provided' do
+      it 'configures the elasticsearch node name to the chef node name' do
+        expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.name: #{chef_run.node.name}/)
+      end
+    end
 
-    it 'configures the elasticsearch node name' do
-      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.name: clever-searching-name/)
+    context 'when elasticsearch name override is provided' do
+      let(:runner) { ChefSpec::Runner.new { |node|
+          node.set['elasticsearch']['name'] = 'clever-searching-name'
+      } }
+
+      it 'configures the elasticsearch node name' do
+        expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.name: clever-searching-name/)
+      end
     end
   end
 
