@@ -54,6 +54,12 @@ describe 'elasticsearch::configure' do
     end
   end
 
+  describe 'processors' do
+    it 'configures the number of processor' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^processors: 1/)
+    end
+  end
+
   describe 'master node' do
     it 'configures elasticsearch to not be master by default' do
       expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.master: false$/)
