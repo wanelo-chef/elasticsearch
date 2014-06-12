@@ -60,6 +60,12 @@ describe 'elasticsearch::configure' do
     end
   end
 
+  describe 'plugin path' do
+    it 'sets the plugin path' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^path\.plugins: \/opt\/local\/plugins/)
+    end
+  end
+
   describe 'master node' do
     it 'configures elasticsearch to not be master by default' do
       expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^node\.master: false$/)
