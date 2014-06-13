@@ -7,6 +7,8 @@
 
 include_recipe 'elasticsearch::service'
 
+directory '/opt/local/newrelic'
+
 template '/opt/local/newrelic/newrelic.yml' do
   source 'newrelic.yml.erb'
   variables(:newrelic => node[:elasticsearch][:newrelic])

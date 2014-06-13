@@ -9,6 +9,10 @@ describe 'elasticsearch::newrelic' do
       node.set['elasticsearch']['newrelic']['jar_url'] = 'http://example.com/newrelic.jar'
     } }
 
+    it 'creates the newrelic parent directory' do
+      expect(chef_run).to create_directory('/opt/local/newrelic')
+    end
+
     it 'configures the license key for newrelic' do
       expect(chef_run).to render_file('/opt/local/newrelic/newrelic.yml').with_content(/^  license_key: 'i bought this already'$/)
     end
