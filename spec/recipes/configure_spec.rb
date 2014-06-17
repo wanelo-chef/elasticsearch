@@ -5,7 +5,7 @@ describe 'elasticsearch::configure' do
   let(:chef_run) { runner.converge(described_recipe) }
 
   before do
-    stub_search(:node, 'roles:elasticsearch-master').and_return([{'privateaddress' => '1.2.3.4'}])
+    stub_search(:node, 'roles:elasticsearch-master').and_return([{'privateaddress' => '5.6.7.8'}, {'privateaddress' => '1.2.3.4'}])
   end
 
   it 'configures elasticsearch to not use multicast' do
@@ -84,7 +84,7 @@ describe 'elasticsearch::configure' do
 
   describe 'unicast hosts' do
     it 'fills in ips based on search' do
-      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4"\]$/)
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^discovery\.zen\.ping\.unicast\.hosts: \["1\.2\.3\.4", "5\.6\.7\.8"\]$/)
     end
 
     context 'with search overridden' do
