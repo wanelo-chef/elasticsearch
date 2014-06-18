@@ -16,6 +16,22 @@ describe 'elasticsearch::configure' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^bootstrap\.mlockall: true$/)
   end
 
+  it 'configures the number of concurrent recovery streams' do
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^indices\.recovery\.concurrent_streams: 4$/)
+  end
+
+  it 'configures the recovery stream throttling' do
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^indices\.recovery\.max_bytes_per_sec: 512mb$/)
+  end
+
+  it 'configures the number of concurrent recoveries' do
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^cluster\.routing\.allocation\.node_concurrent_recoveries: 2$/)
+  end
+
+  it 'configures the number of initial recoveries' do
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^cluster\.routing\.allocation\.node_initial_primaries_recoveries: 4$/)
+  end
+
   describe 'cluster name' do
     let(:runner) { ChefSpec::Runner.new { |node|
         node.set['elasticsearch']['cluster'] = 'delicious-tacos'
