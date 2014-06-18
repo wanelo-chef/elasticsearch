@@ -263,7 +263,7 @@ bootstrap.mlockall: true
 # are up (and recover_after_nodes is met), begin recovery process immediately
 # (without waiting for recover_after_time to expire):
 #
-# gateway.expected_nodes: 2
+gateway.expected_nodes: <%= @elasticsearch_hosts.length %>
 
 
 ############################# Recovery Throttling #############################
@@ -280,7 +280,7 @@ cluster.routing.allocation.node_initial_primaries_recoveries: 4
 
 # 2. During adding/removing nodes, rebalancing, etc
 #
-cluster.routing.allocation.node_concurrent_recoveries: 2
+cluster.routing.allocation.node_concurrent_recoveries: 16
 
 # Set to throttle throughput when recovering (eg. 100mb, by default 20mb):
 #
@@ -289,7 +289,7 @@ indices.recovery.max_bytes_per_sec: 512mb
 # Set to limit the number of open concurrent streams when
 # recovering a shard from a peer:
 #
-indices.recovery.concurrent_streams: 4
+indices.recovery.concurrent_streams: 8
 
 
 ################################## Discovery ##################################

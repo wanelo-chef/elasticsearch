@@ -17,7 +17,7 @@ describe 'elasticsearch::configure' do
   end
 
   it 'configures the number of concurrent recovery streams' do
-    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^indices\.recovery\.concurrent_streams: 4$/)
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^indices\.recovery\.concurrent_streams: 8$/)
   end
 
   it 'configures the recovery stream throttling' do
@@ -25,11 +25,15 @@ describe 'elasticsearch::configure' do
   end
 
   it 'configures the number of concurrent recoveries' do
-    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^cluster\.routing\.allocation\.node_concurrent_recoveries: 2$/)
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^cluster\.routing\.allocation\.node_concurrent_recoveries: 16$/)
   end
 
   it 'configures the number of initial recoveries' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^cluster\.routing\.allocation\.node_initial_primaries_recoveries: 4$/)
+  end
+
+  it 'configures the number of expected nodes in the cluster' do
+    expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^gateway\.expected_nodes: 2$/)
   end
 
   describe 'cluster name' do
