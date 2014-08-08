@@ -6,7 +6,6 @@
 #
 
 include_recipe 'smf'
-include_recipe 'elasticsearch::service'
 include_recipe 'elasticsearch::memory'
 
 smf 'pkgsrc/elasticsearch' do
@@ -20,7 +19,6 @@ elasticsearch_environment = {
 elasticsearch_environment['ES_USE_GC_LOGGING'] = 1 if node['elasticsearch']['verbose_gc']
 smf 'elasticsearch' do
   start_command '/opt/local/bin/elasticsearch -d -Xms%{min_heap} -Xmx%{max_heap} -Des.index.store.type=%{store_type}'
-  refresh_command ':kill -HUP'
   start_timeout 60
   stop_timeout 60
   refresh_timeout 60
@@ -42,3 +40,5 @@ smf 'elasticsearch' do
 
   notifies :restart, 'service[elasticsearch]'
 end
+
+include_recipe 'elasticsearch::service'
