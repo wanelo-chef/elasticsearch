@@ -6,6 +6,7 @@
 #
 
 include_recipe 'elasticsearch::service'
+include_recipe 'java::default'
 
 package 'elasticsearch' do
   notifies :enable, 'service[elasticsearch]'

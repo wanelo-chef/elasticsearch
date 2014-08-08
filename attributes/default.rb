@@ -4,6 +4,7 @@ default['elasticsearch']['cluster'] = 'elasticsearch'
 
 default['elasticsearch']['minimum_master_nodes'] = '2'
 
+default['elasticsearch']['java_home'] = '/opt/local/java/openjdk7'
 default['elasticsearch']['max_dynamic_heap_size'] = 30000
 default['elasticsearch']['dynamic_heap_ratio'] = 0.5
 default['elasticsearch']['min_heap'] = '1g'
