@@ -10,6 +10,6 @@ module MemoryHelper
                   else
                     `free -m | grep Mem | awk '{print $2}'`.chomp.to_i
                 end
-    [30000, heap_size / 2].min
+    [node['elasticsearch']['max_dynamic_heap_size'], heap_size * node['elasticsearch']['dynamic_heap_ratio']].min.to_i
   end
 end
