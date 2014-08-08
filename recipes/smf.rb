@@ -15,6 +15,8 @@ end
 elasticsearch_environment = {
   'PATH' => node['elasticsearch']['path'],
   'JAVA_HOME' => node['elasticsearch']['java_home'],
+  'LANG' => 'en_US.UTF-8',
+  'LC_ALL' => 'en_US.UTF-8'
 }
 elasticsearch_environment['ES_USE_GC_LOGGING'] = 1 if node['elasticsearch']['verbose_gc']
 elasticsearch_environment['ES_USE_G1GC'] = 1 if node['elasticsearch']['garbage_collector'] == 'G1GC'
