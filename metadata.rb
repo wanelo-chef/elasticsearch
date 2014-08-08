@@ -7,4 +7,5 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.8.0'
 
 depends 'java'
+depends 'paths'
 depends 'smf', '>= 2.0.4'
