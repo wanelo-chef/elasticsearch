@@ -9,6 +9,7 @@ default['elasticsearch']['dynamic_heap_ratio'] = 0.5
 default['elasticsearch']['min_heap'] = '1g'
 default['elasticsearch']['max_heap'] = '1g'
 
+default['elasticsearch']['verbose_gc'] = false
 default['elasticsearch']['plugins'] = {
   'HQ' => 'royrusso/elasticsearch-HQ'
 }

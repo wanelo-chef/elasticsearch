@@ -13,6 +13,11 @@ smf 'pkgsrc/elasticsearch' do
   action :delete
 end
 
+elasticsearch_environment = {
+  'PATH' => '/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin',
+  'JAVA_HOME' => node['elasticsearch']['java_home']
+}
+elasticsearch_environment['ES_USE_GC_LOGGING'] = 1 if node['elasticsearch']['verbose_gc']
 smf 'elasticsearch' do
   start_command '/opt/local/bin/elasticsearch -d -Xms%{min_heap} -Xmx%{max_heap} -Des.index.store.type=%{store_type}'
   refresh_command ':kill -HUP'
@@ -25,8 +30,7 @@ smf 'elasticsearch' do
   group 'elastic'
   working_directory '/var/tmp/elasticsearch'
 
-  environment 'PATH' => '/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin',
-              'JAVA_HOME' => '/opt/local/java/openjdk7'
+  environment elasticsearch_environment
 
   property_groups({
     'application' => {
