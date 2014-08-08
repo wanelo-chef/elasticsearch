@@ -8,3 +8,4 @@
 include_recipe 'elasticsearch::install'
 include_recipe 'elasticsearch::plugins'
 include_recipe 'elasticsearch::configure'
+include_recipe 'elasticsearch::smf'
