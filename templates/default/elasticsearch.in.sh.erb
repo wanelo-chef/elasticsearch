@@ -74,5 +74,8 @@ JAVA_OPTS="$JAVA_OPTS -XX:+HeapDumpOnOutOfMemoryError"
 # The path to the config and pid files
 ES_JAVA_OPTS="$ES_JAVA_OPTS -Des.config=/opt/local/etc/elasticsearch/elasticsearch.yml -Des.pidfile=/var/tmp/elasticsearch/elasticsearch.pid"
 
+# Run in 64bit mode
+JAVA_OPTS="$JAVA_OPTS -d64"
+
 # Load the newrelic jar
 JAVA_OPTS="$JAVA_OPTS -javaagent:$ES_HOME/newrelic/newrelic.jar"
