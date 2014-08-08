@@ -17,6 +17,8 @@ elasticsearch_environment = {
   'JAVA_HOME' => node['elasticsearch']['java_home']
 }
 elasticsearch_environment['ES_USE_GC_LOGGING'] = 1 if node['elasticsearch']['verbose_gc']
+elasticsearch_environment['ES_USE_G1GC'] = 1 if node['elasticsearch']['garbage_collector'] == 'G1GC'
+
 smf 'elasticsearch' do
   start_command '/opt/local/bin/elasticsearch -d -Xms%{min_heap} -Xmx%{max_heap} -Des.index.store.type=%{store_type}'
   start_timeout 60
