@@ -8,7 +8,7 @@
 include_recipe 'java::default'
 
 package 'elasticsearch' do
-  version '1.3.0'
+  version node['elasticsearch']['version']
   notifies :enable, 'service[elasticsearch]'
   notifies :start, 'service[elasticsearch]'
 end
@@ -17,7 +17,8 @@ template '/opt/local/bin/elasticsearch.in.sh' do
   source 'elasticsearch.in.sh.erb'
   mode 0755
   notifies :restart, 'service[elasticsearch]'
-  variables(:newrelic => node[:elasticsearch][:newrelic])
+  variables 'newrelic' => node['elasticsearch']['newrelic'],
+            'elasticsearch_version' => node['elasticsearch']['version']
 end
 
 template '/opt/local/bin/elasticsearch' do

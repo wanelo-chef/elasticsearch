@@ -8,4 +8,5 @@ version          '0.8.2'
 
 depends 'java'
 depends 'paths'
+depends 'resource-control'
 depends 'smf', '>= 2.0.4'

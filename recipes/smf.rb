@@ -21,9 +21,32 @@ elasticsearch_environment = {
 elasticsearch_environment['ES_USE_GC_LOGGING'] = 1 if node['elasticsearch']['verbose_gc']
 elasticsearch_environment['ES_USE_G1GC'] = 1 if node['elasticsearch']['garbage_collector'] == 'G1GC'
 
-user 'elastic'
-group 'elastic' do
-  members 'elastic'
+group 'elastic'
+
+user 'elastic' do
+  home '/nonexistent'
+  comment 'ElasticSearch user'
+  gid 'elastic'
+  shell '/usr/bin/false'
+  supports manage_home: false
+end
+
+resource_control_project 'elastic' do
+  comment 'Elastic Search Service'
+  users 'elastic'
+  process_limits 'max-file-descriptor' => {
+    'value' => 40000, 'deny' => true
+  }
+end
+
+directory '/var/tmp/elasticsearch' do
+  owner 'elastic'
+  group 'elastic'
+end
+
+directory '/var/log/elasticsearch' do
+  owner 'elastic'
+  group 'elastic'
 end
 
 smf 'elasticsearch' do

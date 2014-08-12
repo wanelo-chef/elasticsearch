@@ -1,3 +1,5 @@
+default['elasticsearch']['version'] = '1.3.0'
+
 default['elasticsearch']['master'] = false
 default['elasticsearch']['search'] = 'roles:elasticsearch-master'
 default['elasticsearch']['cluster'] = 'elasticsearch'
