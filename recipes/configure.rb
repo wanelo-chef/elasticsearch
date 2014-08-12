@@ -23,3 +23,8 @@ template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
 
   notifies :restart, 'service[elasticsearch]'
 end
+
+template '/opt/local/etc/elasticsearch/logging.yml' do
+  source 'logging.yml.erb'
+  notifies :restart, 'service[elasticsearch]'
+end
