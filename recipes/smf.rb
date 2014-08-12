@@ -49,6 +49,11 @@ directory '/var/log/elasticsearch' do
   group 'elastic'
 end
 
+directory '/var/db/elasticsearch' do
+  owner 'elastic'
+  group 'elastic'
+end
+
 smf 'elasticsearch' do
   start_command '/opt/local/bin/elasticsearch -d -Xms%{min_heap} -Xmx%{max_heap} -Des.index.store.type=%{store_type}'
   start_timeout 60
