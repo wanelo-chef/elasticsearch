@@ -7,10 +7,33 @@
 
 include_recipe 'java::default'
 
-package 'elasticsearch' do
-  version node['elasticsearch']['version']
-  notifies :enable, 'service[elasticsearch]'
-  notifies :start, 'service[elasticsearch]'
+version = node['elasticsearch']['version']
+tar_file = "elasticsearch-#{version}.tar.gz"
+
+remote_file "#{Chef::Config[:file_cache_path]}/#{tar_file}" do
+  source "#{node['elasticsearch']['mirror']}/#{tar_file}"
+  checksum node['elasticsearch']['checksum']
+  mode 0755
+
+  action :create
+  notifies :run, "execute[untar #{tar_file}]", :immediately
+end
+
+execute "untar #{tar_file}" do
+  command <<-EOC
+    mkdir -p /opt/elasticsearch \
+    && cd /opt/elasticsearch \
+    && tar -xzf #{Chef::Config[:file_cache_path]}/#{tar_file}
+  EOC
+  environment 'PATH' => node['paths']['bin_path']
+  notifies :create, 'link[/opt/local/lib/elasticsearch]', :immediately
+  action :nothing
+end
+
+link '/opt/local/lib/elasticsearch' do
+  to "/opt/elasticsearch/elasticsearch-#{version}/lib"
+  notifies :restart, 'service[elasticsearch]'
+  action :nothing
 end
 
 template '/opt/local/bin/elasticsearch.in.sh' do
@@ -18,7 +41,7 @@ template '/opt/local/bin/elasticsearch.in.sh' do
   mode 0755
   notifies :restart, 'service[elasticsearch]'
   variables 'newrelic' => node['elasticsearch']['newrelic'],
-            'elasticsearch_version' => node['elasticsearch']['version']
+            'elasticsearch_version' => version
 end
 
 template '/opt/local/bin/elasticsearch' do

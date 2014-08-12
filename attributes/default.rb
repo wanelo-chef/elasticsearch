@@ -1,4 +1,6 @@
-default['elasticsearch']['version'] = '1.3.0'
+default['elasticsearch']['version'] = '1.3.1'
+default['elasticsearch']['mirror'] = 'https://download.elasticsearch.org/elasticsearch/elasticsearch'
+default['elasticsearch']['checksum'] = 'add61343400d099f005f3b190b8b34aa35af0c5014c954d04e6c63485a400239'
 
 default['elasticsearch']['master'] = false
 default['elasticsearch']['search'] = 'roles:elasticsearch-master'

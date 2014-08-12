@@ -28,15 +28,6 @@ describe 'elasticsearch::newrelic' do
     it 'downloads the newrelic jar file' do
       expect(chef_run).to create_remote_file('/opt/local/newrelic/newrelic.jar').with(source: 'http://example.com/newrelic.jar')
     end
-
-    it 'overrides the elasticsearch.in.sh file' do
-      expect(chef_run).to render_file('/opt/local/bin/elasticsearch.in.sh').with_content(/^JAVA_OPTS="\$JAVA_OPTS -javaagent:\$ES_HOME\/newrelic\/newrelic\.jar"$/)
-    end
-
-    it 'restarts elasticsearch' do
-      resource = chef_run.template('/opt/local/bin/elasticsearch.in.sh')
-      expect(resource).to notify('service[elasticsearch]').to(:restart)
-    end
   end
 
   context 'when there is no api key' do
@@ -50,10 +41,6 @@ describe 'elasticsearch::newrelic' do
 
     it 'does not download the newrelic jar file' do
       expect(chef_run).not_to create_remote_file('/opt/local/newrelic/newrelic.jar')
-    end
-
-    it 'does not render the elasticsearch settings file' do
-      expect(chef_run).not_to render_file('/opt/local/bin/elasticsearch.in.sh')
     end
   end
 end
