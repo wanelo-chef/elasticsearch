@@ -19,10 +19,3 @@ remote_file '/opt/local/newrelic/newrelic.jar' do
   source node[:elasticsearch][:newrelic][:jar_url]
   not_if { node[:elasticsearch][:newrelic][:api_key].empty? }
 end
-
-template '/opt/local/bin/elasticsearch.in.sh' do
-  source 'elasticsearch.in.sh.erb'
-  mode 0755
-  notifies :restart, 'service[elasticsearch]'
-  not_if { node[:elasticsearch][:newrelic][:api_key].empty? }
-end
