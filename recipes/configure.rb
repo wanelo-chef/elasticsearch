@@ -10,6 +10,8 @@ include_recipe 'elasticsearch::cpu'
 
 elasticsearch_hosts = search(:node, node['elasticsearch']['search'])
 
+directory '/opt/local/etc/elasticsearch'
+
 template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
   source 'elasticsearch.yml.erb'
   variables(
