@@ -71,7 +71,7 @@ smf 'elasticsearch' do
     'application' => {
       'min_heap' => node['elasticsearch']['min_heap'],
       'max_heap' => node['elasticsearch']['max_heap'],
-      'store_type' => 'niofs'
+      'store_type' => node['elasticsearch']['store_type']
     }
   })
 
