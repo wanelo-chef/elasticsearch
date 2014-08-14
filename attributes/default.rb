@@ -5,6 +5,7 @@ default['elasticsearch']['checksum'] = 'add61343400d099f005f3b190b8b34aa35af0c50
 default['elasticsearch']['restart_on_smf_change'] = true
 
 default['elasticsearch']['master'] = false
+default['elasticsearch']['data'] = true
 default['elasticsearch']['search'] = 'roles:elasticsearch-master'
 default['elasticsearch']['cluster'] = 'elasticsearch'
 

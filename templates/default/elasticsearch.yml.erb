@@ -48,7 +48,7 @@ node.master: <%= @master ? 'true' : 'false' %>
 #
 # Allow this node to store data (enabled by default):
 #
-# node.data: true
+node.data: <%= @data ? 'true' : 'false' %>
 
 # You can exploit these settings to design advanced cluster topologies.
 #
