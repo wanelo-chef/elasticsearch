@@ -75,7 +75,7 @@ smf 'elasticsearch' do
     }
   })
 
-  notifies :restart, 'service[elasticsearch]'
+  notifies :restart, 'service[elasticsearch]' if node['elasticsearch']['restart_on_smf_change']
 end
 
 include_recipe 'elasticsearch::service'
