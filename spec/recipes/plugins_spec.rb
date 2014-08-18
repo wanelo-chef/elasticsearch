@@ -6,7 +6,7 @@ describe 'elasticsearch::plugins' do
 
   context 'when the plugin is already installed' do
     before do
-      stub_command('/opt/local/bin/plugin --list | grep HQ').and_return(true)
+      stub_command('JAVA_HOME=/opt/local/java/openjdk7 /opt/local/bin/plugin --list | grep HQ').and_return(true)
     end
 
     it 'does not install it a second time' do
@@ -16,7 +16,7 @@ describe 'elasticsearch::plugins' do
 
   context 'when the plugin is not installed' do
     before do
-      stub_command('/opt/local/bin/plugin --list | grep HQ').and_return(false)
+      stub_command('JAVA_HOME=/opt/local/java/openjdk7 /opt/local/bin/plugin --list | grep HQ').and_return(false)
     end
 
     it 'installs the configured plugin' do
