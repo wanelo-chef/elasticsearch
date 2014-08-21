@@ -10,6 +10,9 @@ Add `recipe[elasticsearch]` to your run_list on each `elasticsearch` node. The c
 recipe will search for all nodes matching `elasticsearch-master` and drop those hosts into the
 the configuration.
 
+Changes to configuration will not restart elasticsearch. Once new configurations are applied,
+manual intervention will be required to restart each service on each node.
+
 ## Memory Usage
 
 By default the recipe will set the heap memory size to half of the available RAM, or 30GB

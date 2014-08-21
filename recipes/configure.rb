@@ -23,8 +23,6 @@ template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
     minimum_master_nodes: node['elasticsearch']['minimum_master_nodes'],
     processors: node['elasticsearch']['processors']
   )
-
-  notifies :restart, 'service[elasticsearch]'
 end
 
 template '/opt/local/etc/elasticsearch/logging.yml' do
@@ -36,5 +34,4 @@ template '/opt/local/etc/elasticsearch/logging.yml' do
     syslog_facility: node['elasticsearch']['syslog']['facility'],
     syslog_log_format: node['elasticsearch']['syslog']['log_format'],
   )
-  notifies :restart, 'service[elasticsearch]'
 end
