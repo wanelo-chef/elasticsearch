@@ -122,22 +122,6 @@ describe 'elasticsearch::configure' do
     end
   end
 
-  describe 'template[/opt/local/etc/elasticsearch/elasticsearch.yml]' do
-    let(:resource) { chef_run.template('/opt/local/etc/elasticsearch/elasticsearch.yml') }
-
-    it 'does not restart elasticsearch' do
-      expect(resource).not_to notify('service[elasticsearch]').to(:restart)
-    end
-  end
-
-  describe 'template[/opt/local/etc/elasticsearch/logging.yml]' do
-    let(:resource) { chef_run.template('/opt/local/etc/elasticsearch/logging.yml') }
-
-    it 'does not restart elasticsearch' do
-      expect(resource).not_to notify('service[elasticsearch]').to(:restart)
-    end
-  end
-
   describe 'logging' do
     describe 'syslog' do
       context 'when it is disabled (default)' do

@@ -47,10 +47,6 @@ describe 'elasticsearch::install' do
     it 'links to the untarred lib dir' do
       expect(resource.to).to eq('/opt/elasticsearch/elasticsearch-1.1.1/lib')
     end
-
-    it 'notifies elasticsearch to restart' do
-      expect(resource).to notify('service[elasticsearch]').to(:restart).delayed
-    end
   end
 
   describe 'elasticsearch.in.sh' do

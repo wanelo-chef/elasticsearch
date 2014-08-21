@@ -32,14 +32,12 @@ end
 
 link '/opt/local/lib/elasticsearch' do
   to "/opt/elasticsearch/elasticsearch-#{version}/lib"
-  notifies :restart, 'service[elasticsearch]'
   action :nothing
 end
 
 template '/opt/local/bin/elasticsearch.in.sh' do
   source 'elasticsearch.in.sh.erb'
   mode 0755
-  notifies :restart, 'service[elasticsearch]'
   variables newrelic: node['elasticsearch']['newrelic'],
             elasticsearch_version: version,
             max_perm_size: node['elasticsearch']['max_perm_size']
@@ -48,13 +46,11 @@ end
 template '/opt/local/bin/elasticsearch' do
   source 'elasticsearch.erb'
   mode 0755
-  notifies :restart, 'service[elasticsearch]'
 end
 
 template '/opt/local/bin/plugin' do
   source 'plugin.erb'
   mode 0755
-  notifies :restart, 'service[elasticsearch]'
 end
 
 include_recipe 'elasticsearch::service'
