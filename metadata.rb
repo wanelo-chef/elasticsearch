@@ -4,7 +4,7 @@ maintainer_email 'play@wanelo.com'
 license          'MIT'
 description      'Installs/Configures elasticsearch on Joyent SmartOS'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.10.1'
+version          '0.10.2'
 
 depends 'java'
 depends 'paths'
