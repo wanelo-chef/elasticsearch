@@ -58,6 +58,10 @@ describe 'elasticsearch::install' do
       expect(chef_run).to render_file('/opt/local/bin/elasticsearch.in.sh').with_content(/^JAVA_OPTS="\$JAVA_OPTS -XX:MaxPermSize=taco"$/)
     end
 
+    it 'turns on cms class unloading' do
+      expect(chef_run).to render_file('/opt/local/bin/elasticsearch.in.sh').with_content(/^\s+JAVA_OPTS="\$JAVA_OPTS -XX:\+CMSClassUnloadingEnabled"$/)
+    end
+
     context 'when a newrelic api key is set' do
       let(:runner) { ChefSpec::Runner.new { |node|
         node.set['elasticsearch']['newrelic']['api_key'] = 'i bought this already'

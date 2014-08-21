@@ -53,6 +53,7 @@ if [ "x$ES_USE_G1GC" == "x" ]; then
 
   JAVA_OPTS="$JAVA_OPTS -XX:CMSInitiatingOccupancyFraction=75"
   JAVA_OPTS="$JAVA_OPTS -XX:+UseCMSInitiatingOccupancyOnly"
+  JAVA_OPTS="$JAVA_OPTS -XX:+CMSClassUnloadingEnabled"
 fi
 
 # GC logging options
