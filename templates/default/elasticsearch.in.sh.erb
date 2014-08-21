@@ -65,6 +65,8 @@ if [ "x$ES_USE_GC_LOGGING" != "x" ]; then
   JAVA_OPTS="$JAVA_OPTS -Xloggc:/var/log/elasticsearch/gc.log"
 fi
 
+JAVA_OPTS="$JAVA_OPTS -XX:MaxPermSize=<%= @max_perm_size %>"
+
 # Causes the JVM to dump its heap on OutOfMemory.
 JAVA_OPTS="$JAVA_OPTS -XX:+HeapDumpOnOutOfMemoryError"
 # The path to the heap dump location, note directory must exists and have enough

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'elasticsearch::install' do
   let(:runner) { ChefSpec::Runner.new { |node|
     node.set['elasticsearch']['version'] = '1.1.1'
+    node.set['elasticsearch']['max_perm_size'] = 'taco'
   } }
   let(:chef_run) { runner.converge(described_recipe) }
 
@@ -53,6 +54,10 @@ describe 'elasticsearch::install' do
   end
 
   describe 'elasticsearch.in.sh' do
+    it 'sets the max permgen size' do
+      expect(chef_run).to render_file('/opt/local/bin/elasticsearch.in.sh').with_content(/^JAVA_OPTS="\$JAVA_OPTS -XX:MaxPermSize=taco"$/)
+    end
+
     context 'when a newrelic api key is set' do
       let(:runner) { ChefSpec::Runner.new { |node|
         node.set['elasticsearch']['newrelic']['api_key'] = 'i bought this already'
