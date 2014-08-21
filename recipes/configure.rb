@@ -29,5 +29,12 @@ end
 
 template '/opt/local/etc/elasticsearch/logging.yml' do
   source 'logging.yml.erb'
+  variables(
+    syslog_enabled: node['elasticsearch']['syslog']['enabled'],
+    syslog_server: node['elasticsearch']['syslog']['server'],
+    syslog_port: node['elasticsearch']['syslog']['port'],
+    syslog_facility: node['elasticsearch']['syslog']['facility'],
+    syslog_log_format: node['elasticsearch']['syslog']['log_format'],
+  )
   notifies :restart, 'service[elasticsearch]'
 end

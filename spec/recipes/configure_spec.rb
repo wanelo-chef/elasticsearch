@@ -129,4 +129,49 @@ describe 'elasticsearch::configure' do
       expect(resource).to notify('service[elasticsearch]').to(:restart)
     end
   end
+
+  describe 'template[/opt/local/etc/elasticsearch/logging.yml]' do
+    let(:resource) { chef_run.template('/opt/local/etc/elasticsearch/logging.yml') }
+
+    it 'restarts elasticsearch' do
+      expect(resource).to notify('service[elasticsearch]').to(:restart)
+    end
+  end
+
+  describe 'logging' do
+    describe 'syslog' do
+      context 'when it is disabled (default)' do
+        it 'does not log to syslog' do
+          expect(chef_run).to render_file('/opt/local/etc/elasticsearch/logging.yml').with_content(/^rootLogger: \$\{es.logger.level\}, console, file$/)
+        end
+      end
+
+      context 'when rsyslog is enabled' do
+        let(:runner) { ChefSpec::Runner.new { |node|
+          node.set['elasticsearch']['syslog']['server'] = '127.0.0.1'
+          node.set['elasticsearch']['syslog']['port'] = '514'
+          node.set['elasticsearch']['syslog']['enabled'] = true
+          node.set['elasticsearch']['syslog']['facility'] = 'local2'
+          node.set['elasticsearch']['syslog']['log_format'] = 'butts!'
+        } }
+
+        it 'logs to syslog' do
+          expect(chef_run).to render_file('/opt/local/etc/elasticsearch/logging.yml').with_content(/^rootLogger: \$\{es.logger.level\}, console, file, syslog$/)
+        end
+
+        it 'has a configurable port and server' do
+          expect(chef_run).to render_file('/opt/local/etc/elasticsearch/logging.yml').with_content('syslogHost: 127.0.0.1:514')
+        end
+
+        it 'has a configurable facility' do
+          expect(chef_run).to render_file('/opt/local/etc/elasticsearch/logging.yml').with_content('facility: local2')
+        end
+
+        it 'has a configurable log format' do
+          expect(chef_run).to render_file('/opt/local/etc/elasticsearch/logging.yml').with_content('conversionPattern: "butts!"')
+        end
+      end
+    end
+  end
+
 end
