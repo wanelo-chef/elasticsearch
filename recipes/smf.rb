@@ -60,6 +60,7 @@ smf 'elasticsearch' do
   stop_timeout 60
   refresh_timeout 60
 
+  privileges %w(basic net_privaddr proc_lock_memory)
   project 'elastic'
   user 'elastic'
   group 'elastic'
