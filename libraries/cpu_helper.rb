@@ -2,7 +2,7 @@ module CpuHelper
   def number_of_processors
     case node['platform']
       when 'smartos'
-        `sm-cpuinfo  | grep Alloc | cut -f 2 -d':'`.chomp.to_i
+        [`sm-cpuinfo  | grep Alloc | cut -f 2 -d':'`.chomp.to_i, 1].max
       when 'darwin'
         `sysctl hw.ncpu | awk '{print $2}'`.chomp.to_i
       when 'chefspec'
