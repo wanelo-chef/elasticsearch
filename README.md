@@ -29,6 +29,7 @@ node.override['elasticsearch']['max_heap'] = '6g'
 * `elasticsearch::configure`
 * `elasticsearch::smf`
 
+
 ## Known issues when upgrading this cookbook
 
 See (Upgrading this cookbook)[https://github.com/wanelo-chef/elasticsearch/blob/master/UpgradeIssues.md] for any specific
