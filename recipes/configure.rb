@@ -21,7 +21,8 @@ template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
     cluster: node['elasticsearch']['cluster'],
     node_name: node['elasticsearch']['name'] || node.name,
     minimum_master_nodes: node['elasticsearch']['minimum_master_nodes'],
-    processors: node['elasticsearch']['processors']
+    processors: node['elasticsearch']['processors'],
+    additional_config: node['elasticsearch']['additional_config']
   )
 end
 

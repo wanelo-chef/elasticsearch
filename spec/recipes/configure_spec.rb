@@ -36,6 +36,22 @@ describe 'elasticsearch::configure' do
     expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml').with_content(/^gateway\.expected_nodes: 2$/)
   end
 
+  describe 'additional config' do
+    let(:runner) { ChefSpec::Runner.new { |node|
+        node.set['elasticsearch']['additional_config'] = {
+          'delicious.tacos' => 'required',
+          'burrito.enabled' => true
+        }
+    } }
+
+    it 'is configured in elasticsearch.yml' do
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml')
+        .with_content(/^delicious\.tacos: required/)
+      expect(chef_run).to render_file('/opt/local/etc/elasticsearch/elasticsearch.yml')
+        .with_content(/^burrito\.enabled: true/)
+    end
+  end
+
   describe 'cluster name' do
     let(:runner) { ChefSpec::Runner.new { |node|
         node.set['elasticsearch']['cluster'] = 'delicious-tacos'

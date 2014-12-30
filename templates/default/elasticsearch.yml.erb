@@ -376,3 +376,11 @@ index.indexing.slowlog.threshold.index.debug: 2s
 #monitor.jvm.gc.old.info: 5s
 #monitor.jvm.gc.old.debug: 2s
 processors: <%= @processors %>
+<% unless @additional_config.empty? %>
+
+########################## Additional Configuration ##########################
+
+<% @additional_config.each do |key, value| %>
+<%= key %>: <%= value %>
+<% end %>
+<% end %>
