@@ -23,6 +23,26 @@ node.override['elasticsearch']['min_heap'] = '6g'
 node.override['elasticsearch']['max_heap'] = '6g'
 ```
 
+## Malloc
+
+By default, ElasticSearch will utilize the `malloc` linked by Java. On Solaris-like OSs, this
+can be overridden with `LD_PRELOAD`. To do this, ensure that the Java executable used matches
+the malloc used (32bit or 64bit). This can be done by overriding the
+`node['elasticsearch']['java_bin']` attribute.
+
+Override `malloc` using the `JAVA_ENV` environment variable, set by
+`node['elasticsearch']['java_env']`.
+
+```ruby
+node.override['elasticsearch']['java_bin'] = '/opt/local/java/jdk1.7.0_67/bin/amd64/java'
+node.override['elasticsearch']['java_env'] = 'LD_PRELOAD=/usr/lib/64/libumem.so'
+# or
+node.override['elasticsearch']['java_env'] = 'LD_PRELOAD=/usr/lib/64/libmtmalloc.so'
+```
+
+Note that when using `java -d64`, the initial exec may start a 32bit java, which then execs
+the 64bit binary. This may conflict with the version of `malloc` loaded.
+
 ## Recipes
 
 * `elasticsearch::install`

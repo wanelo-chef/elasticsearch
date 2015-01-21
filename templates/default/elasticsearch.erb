@@ -45,7 +45,22 @@
 # ensuring that no include files exist in the aforementioned search list.
 # Be aware that you will be entirely responsible for populating the needed
 # environment variables.
-
+#
+# In some use cases, it may be beneficial to set environment variables
+# to be used when executing Java -- or to specify the path to the Java
+# executable itself. There are two environment variables that can be
+# set to achieve this:
+#
+# JAVA_BIN -- Path to Java executable
+# JAVA_ENV -- Environment variables to be passed into Java's execution
+#             environment
+#
+# For example, on 64-bit platforms you may wish to specify a combination of:
+#
+# JAVA_BIN=/opt/local/java/bin/amd64/java
+# JAVA_ENV="LD_PRELOAD=/usr/lib/64/libmtmalloc.so"
+#
+# for highly concurrent ES deployments.
 
 # Maven will replace the project.name with elasticsearch below. If that
 # hasn't been done, we assume that this is not a packaged version and the
@@ -100,10 +115,16 @@ elif [ -r "$ES_INCLUDE" ]; then
     . "$ES_INCLUDE"
 fi
 
-if [ -x "$JAVA_HOME/bin/java" ]; then
-    JAVA="$JAVA_HOME/bin/java"
-else
-    JAVA=`which java`
+if [ ! -z "$JAVA_BIN" ]; then
+  JAVA="$JAVA_BIN"
+fi
+
+if [ -z "$JAVA" ]; then
+  if [ -x "$JAVA_HOME/bin/java" ]; then
+      JAVA="$JAVA_HOME/bin/java"
+  else
+      JAVA=`which java`
+  fi
 fi
 
 if [ ! -x "$JAVA" ]; then
@@ -138,12 +159,14 @@ launch_service()
     # The es-foreground option will tell Elasticsearch not to close stdout/stderr, but it's up to us not to daemonize.
     if [ "x$daemonized" = "x" ]; then
         es_parms="$es_parms -Des.foreground=yes"
+        eval "export $JAVA_ENV" > /dev/null
         exec "$JAVA" $JAVA_OPTS $ES_JAVA_OPTS $es_parms -Des.path.home="$ES_HOME" -cp "$ES_CLASSPATH" $props \
                 org.elasticsearch.bootstrap.Elasticsearch
         # exec without running it in the background, makes it replace this shell, we'll never get here...
         # no need to return something
     else
         # Startup Elasticsearch, background it, and write the pid.
+        eval "export $JAVA_ENV" > /dev/null
         exec "$JAVA" $JAVA_OPTS $ES_JAVA_OPTS $es_parms -Des.path.home="$ES_HOME" -cp "$ES_CLASSPATH" $props \
                     org.elasticsearch.bootstrap.Elasticsearch <&- &
         return $?
@@ -173,6 +196,7 @@ eval set -- "$args"
 while true; do
     case $1 in
         -v)
+            eval "export $JAVA_ENV" > /dev/null
             "$JAVA" $JAVA_OPTS $ES_JAVA_OPTS $es_parms -Des.path.home="$ES_HOME" -cp "$ES_CLASSPATH" $props \
                     org.elasticsearch.Version
             exit 0
