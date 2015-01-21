@@ -7,11 +7,11 @@ describe 'elasticsearch::default' do
 
   it 'includes the configure recipe' do
     expect_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('elasticsearch::configure')
-    ChefSpec::Runner.new.converge(described_recipe)
+    ChefSpec::SoloRunner.new.converge(described_recipe)
   end
 
   it 'includes the install recipe' do
     expect_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('elasticsearch::install')
-    ChefSpec::Runner.new.converge(described_recipe)
+    ChefSpec::SoloRunner.new.converge(described_recipe)
   end
 end

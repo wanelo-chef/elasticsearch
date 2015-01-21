@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'elasticsearch::install' do
-  let(:runner) { ChefSpec::Runner.new { |node|
+  let(:runner) { ChefSpec::SoloRunner.new { |node|
     node.set['elasticsearch']['version'] = '1.1.1'
     node.set['elasticsearch']['max_perm_size'] = 'taco'
   } }
@@ -59,7 +59,7 @@ describe 'elasticsearch::install' do
     end
 
     context 'when a newrelic api key is set' do
-      let(:runner) { ChefSpec::Runner.new { |node|
+      let(:runner) { ChefSpec::SoloRunner.new { |node|
         node.set['elasticsearch']['newrelic']['api_key'] = 'i bought this already'
       } }
 
@@ -69,7 +69,7 @@ describe 'elasticsearch::install' do
     end
 
     context 'when a newrelic api key is not set' do
-      let(:runner) { ChefSpec::Runner.new { |node|
+      let(:runner) { ChefSpec::SoloRunner.new { |node|
         node.set['elasticsearch']['newrelic']['api_key'] = ''
       } }
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'elasticsearch::cpu' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
   describe 'default[elasticsearch][processors]' do
     it 'returns a value' do

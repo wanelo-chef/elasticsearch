@@ -4,7 +4,7 @@ describe 'elasticsearch::newrelic' do
   let(:chef_run) { runner.converge(described_recipe) }
 
   context 'when there is an api key' do
-    let(:runner) { ChefSpec::Runner.new { |node|
+    let(:runner) { ChefSpec::SoloRunner.new { |node|
       node.set['elasticsearch']['newrelic']['api_key'] = 'i bought this already'
       node.set['elasticsearch']['newrelic']['jar_url'] = 'http://example.com/newrelic.jar'
     } }
@@ -31,7 +31,7 @@ describe 'elasticsearch::newrelic' do
   end
 
   context 'when there is no api key' do
-    let(:runner) { ChefSpec::Runner.new { |node|
+    let(:runner) { ChefSpec::SoloRunner.new { |node|
       node.set['elasticsearch']['newrelic']['jar_url'] = 'http://example.com/newrelic.jar'
     } }
 

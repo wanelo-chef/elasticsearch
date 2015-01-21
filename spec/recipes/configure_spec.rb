@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'elasticsearch::configure' do
-  let(:runner) { ChefSpec::Runner.new }
+  let(:runner) { ChefSpec::SoloRunner.new }
   let(:chef_run) { runner.converge(described_recipe) }
 
   before do
@@ -37,7 +37,7 @@ describe 'elasticsearch::configure' do
   end
 
   describe 'additional config' do
-    let(:runner) { ChefSpec::Runner.new { |node|
+    let(:runner) { ChefSpec::SoloRunner.new { |node|
         node.set['elasticsearch']['additional_config'] = {
           'delicious.tacos' => 'required',
           'burrito.enabled' => true
@@ -53,7 +53,7 @@ describe 'elasticsearch::configure' do
   end
 
   describe 'cluster name' do
-    let(:runner) { ChefSpec::Runner.new { |node|
+    let(:runner) { ChefSpec::SoloRunner.new { |node|
         node.set['elasticsearch']['cluster'] = 'delicious-tacos'
     } }
 
@@ -70,7 +70,7 @@ describe 'elasticsearch::configure' do
     end
 
     context 'when elasticsearch name override is provided' do
-      let(:runner) { ChefSpec::Runner.new { |node|
+      let(:runner) { ChefSpec::SoloRunner.new { |node|
           node.set['elasticsearch']['name'] = 'clever-searching-name'
       } }
 
@@ -81,7 +81,7 @@ describe 'elasticsearch::configure' do
   end
 
   describe 'minimum number of nodes' do
-    let(:runner) { ChefSpec::Runner.new { |node|
+    let(:runner) { ChefSpec::SoloRunner.new { |node|
         node.set['elasticsearch']['minimum_master_nodes'] = '30'
     } }
 
@@ -108,7 +108,7 @@ describe 'elasticsearch::configure' do
     end
 
     context 'when the node is configured to be a master node' do
-      let(:runner) { ChefSpec::Runner.new { |node|
+      let(:runner) { ChefSpec::SoloRunner.new { |node|
           node.set['elasticsearch']['master'] = true
       } }
 
@@ -124,7 +124,7 @@ describe 'elasticsearch::configure' do
     end
 
     context 'with search overridden' do
-      let(:runner) { ChefSpec::Runner.new { |node|
+      let(:runner) { ChefSpec::SoloRunner.new { |node|
           node.set['elasticsearch']['search'] = 'roles:blargh'
       } }
 
@@ -147,7 +147,7 @@ describe 'elasticsearch::configure' do
       end
 
       context 'when rsyslog is enabled' do
-        let(:runner) { ChefSpec::Runner.new { |node|
+        let(:runner) { ChefSpec::SoloRunner.new { |node|
           node.set['elasticsearch']['syslog']['server'] = '127.0.0.1'
           node.set['elasticsearch']['syslog']['port'] = '514'
           node.set['elasticsearch']['syslog']['enabled'] = true

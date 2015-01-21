@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'elasticsearch::plugins' do
-  let(:runner) { ChefSpec::Runner.new }
+  let(:runner) { ChefSpec::SoloRunner.new }
   let(:chef_run) { runner.converge(described_recipe) }
 
   context 'when the plugin is already installed' do

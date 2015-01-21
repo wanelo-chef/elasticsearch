@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'elasticsearch::memory' do
-  let(:runner) { ChefSpec::Runner.new }
+  let(:runner) { ChefSpec::SoloRunner.new }
   let(:chef_run) { runner.converge(described_recipe) }
 
   describe 'default[elasticsearch][min_heap]' do
@@ -17,7 +17,7 @@ describe 'elasticsearch::memory' do
   end
 
   context 'with dynamic_heap_ratio' do
-    let(:runner) { ChefSpec::Runner.new { |node|
+    let(:runner) { ChefSpec::SoloRunner.new { |node|
         node.set['elasticsearch']['dynamic_heap_ratio'] = 0.9
     } }
 
