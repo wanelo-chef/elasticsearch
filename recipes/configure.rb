@@ -34,5 +34,6 @@ template '/opt/local/etc/elasticsearch/logging.yml' do
     syslog_port: node['elasticsearch']['syslog']['port'],
     syslog_facility: node['elasticsearch']['syslog']['facility'],
     syslog_log_format: node['elasticsearch']['syslog']['log_format'],
+    keep: node['elasticsearch']['log_rotation']['keep']
   )
 end

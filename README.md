@@ -23,6 +23,15 @@ node.override['elasticsearch']['min_heap'] = '6g'
 node.override['elasticsearch']['max_heap'] = '6g'
 ```
 
+## Log Rotation
+
+Elasticsearch will Log4j to keep 7 days of logs in the local directory by default. This
+can be configured with the following node attribute:
+
+```ruby
+node.override['elasticsearch']['log_rotation']['keep'] = 5
+```
+
 ## Malloc
 
 By default, ElasticSearch will utilize the `malloc` linked by Java. On Solaris-like OSs, this

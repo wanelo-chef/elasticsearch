@@ -41,3 +41,5 @@ default['elasticsearch']['syslog']['server'] = '127.0.0.1'
 default['elasticsearch']['syslog']['port'] = '514'
 default['elasticsearch']['syslog']['facility'] = 'local5'
 default['elasticsearch']['syslog']['log_format'] = '[%d{ISO8601}][%-5p][%-25c] %m%n'
+
+default['elasticsearch']['log_rotation']['keep'] = 7
