@@ -32,6 +32,17 @@ can be configured with the following node attribute:
 node.override['elasticsearch']['log_rotation']['keep'] = 5
 ```
 
+In order to archive these logs, `elasticsearch.log_rotation.rotation_dir` can be set. A
+crontab will then be installed which will rsync old files (which end in `yyyy-MM-dd`) to
+this directory.
+
+```ruby
+node.override['elasticsearch']['log_rotation']['rotation_dir'] = '/var/log/rotated/elasticsearch'
+```
+
+For instance, this could be set to a NAS device, or into a directory from which they
+will be uploaded to a distributed storage system like S3, Manta or Ceph.
+
 ## Malloc
 
 By default, ElasticSearch will utilize the `malloc` linked by Java. On Solaris-like OSs, this

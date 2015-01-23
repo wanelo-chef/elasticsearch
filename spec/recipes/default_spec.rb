@@ -14,4 +14,9 @@ describe 'elasticsearch::default' do
     expect_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('elasticsearch::install')
     ChefSpec::SoloRunner.new.converge(described_recipe)
   end
+
+  it 'includes the log_rotation recipe' do
+    expect_any_instance_of(Chef::Recipe).to receive(:include_recipe).with('elasticsearch::log_rotation')
+    ChefSpec::SoloRunner.new.converge(described_recipe)
+  end
 end
