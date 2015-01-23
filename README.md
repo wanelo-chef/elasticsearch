@@ -43,6 +43,44 @@ node.override['elasticsearch']['log_rotation']['rotation_dir'] = '/var/log/rotat
 For instance, this could be set to a NAS device, or into a directory from which they
 will be uploaded to a distributed storage system like S3, Manta or Ceph.
 
+If garbage collections are logged verbosely, logadm can be configured to rotate the gc log:
+
+```ruby
+node.override['elasticsearch']['log_rotation']['gc_template'] = '/var/log/rotated/$nodename/var/log/elasticsearch/$basename.%Y%m%d'
+```
+
+#### example
+
+```ruby
+# application wrapper cookbook
+elasticsearch_rotated_files = "/var/log-rotated/#{node.name}/var/log/elasticsearch"
+node.override['elasticsearch']['log_rotation']['rotation_dir'] = elasticsearch_rotated_files
+node.override['elasticsearch']['log_rotation']['gc_template'] = '/var/log-rotated/$nodename/var/log/elasticsearch/$basename.%Y%m%d' 
+
+directory elasticsearch_rotated_files do
+  owner 'elastic'
+  group 'elastic'
+end
+
+cron 'clean up old elasticsearch rotated files' do
+  command "find #{elasticsearch_rotated_files} -type f -mtime +5 -delete"
+  minute 30
+  hour 3
+end
+```
+
+```ruby
+# base/log rotation cookbook
+cron 'configure manta-sync to sync log files into Manta' do
+  minute 30
+  hour 4
+  day '*'
+  home '/root'
+  command %Q{source /root/.manta_config && manta-sync /var/log-rotated/#{node['fqdn']}/ ~~/stor/logs/#{node['fqdn']}}
+end
+
+```
+
 ## Malloc
 
 By default, ElasticSearch will utilize the `malloc` linked by Java. On Solaris-like OSs, this
