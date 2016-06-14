@@ -22,7 +22,8 @@ template '/opt/local/etc/elasticsearch/elasticsearch.yml' do
     node_name: node['elasticsearch']['name'] || node.name,
     minimum_master_nodes: node['elasticsearch']['minimum_master_nodes'],
     processors: node['elasticsearch']['processors'],
-    additional_config: node['elasticsearch']['additional_config']
+    additional_config: node['elasticsearch']['additional_config'],
+    http_cors_allow_origin: node['elasticsearch']['http_cors_allow_origin']
   )
 end
 

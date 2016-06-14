@@ -231,6 +231,10 @@ bootstrap.mlockall: true
 #
 # http.enabled: false
 
+<% if @http_cors_allow_origin %>
+  http.cors.enabled: true
+  http.cors.allow-origin: <%= @http_cors_allow_origin %>
+<% end %>
 
 ################################### Gateway ###################################
 

@@ -45,3 +45,5 @@ default['elasticsearch']['syslog']['log_format'] = '[%d{ISO8601}][%-5p][%-25c] %
 default['elasticsearch']['log_rotation']['keep'] = 7
 default['elasticsearch']['log_rotation']['gc_template'] = '/var/log/elasticsearch/$basename.%Y%m%d'
 default['elasticsearch']['log_rotation']['rotation_dir'] = nil
+
+default['elasticsearch']['http_cors_allow_origin'] = nil
